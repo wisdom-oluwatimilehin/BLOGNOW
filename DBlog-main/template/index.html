@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<!-- 
+			=============================================
+				Fancy Hero Two
+			============================================== 
+			-->
+			<div class="fancy-hero-two">
+				<div class="bg-wrapper">
+					<div class="container">
+						<div class="page-title">Blog</div>
+						<div class="row">
+							<div class="col-xl-8 col-lg-10 m-auto">
+								<h1 class="heading md-p0">Check our company inside news</h1>
+							</div>
+						</div>
+					</div>
+				</div> <!-- /.bg-wrapper -->
+			</div> <!-- /.fancy-hero-two -->
+			
+
+
+			<!--
+			=====================================================
+				Feature Blog Three
+			=====================================================
+			-->
+			{% if response %}
+				{% include 'message.html' %}
+			{% endif %}
+			
+			<div class="blog-page-white-bg blog-v3">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-8">
+							<div class="feature-blog-three">
+							{% for p in posts %}
+							<div class="post-meta">
+									<img src="{{p.image.url}}" alt="" class="image-meta">
+									<div class="post">
+										<div class="date">{{p.created_at}}</div>
+										<h3><a href="blog-details-v1.html" class="title">{{p.title}}</a></h3>
+										<p>{{p.content|truncatewords:15}}</p>
+										<a href="{% url 'detail_page' p.slug %}" class="read-more">
+											<span>Continue Reading</span>
+											<i class="fa fa-angle-right" aria-hidden="true"></i>
+										</a>
+									</div>
+								</div>
+							{% endfor %}
+								
+							</div>
+							<div class="page-pagination-one pt-15">
+								<ul class="d-flex align-items-center">
+									{% if posts.has_previous %}
+									<li><a href="?page={{ posts.previous_page_number }}"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+									{% else %}
+									<li class="disabled"><a href="#"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+									{% endif %}
+
+									{% for i in posts.paginator.page_range %}
+      									{% if posts.number == i %}
+										<li><a href="#" class="active">{{ i }}</a></li>
+										{% else %}
+										<li><a href="?page={{ i }}">{{i}}</a></li>
+										{% endif %}
+									{% endfor %}
+									{% if posts.has_next %}
+										<li><a href="?page={{ posts.next_page_number }}"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+									{% else %}
+										<li class="disabled"><a href="#"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+									{% endif %}
+								</ul>
+							</div> <!-- /.page-pagination-one -->
+						</div>
+						<div class="col-lg-4 col-md-6">
+							<div class="blog-sidebar-one">
+								<div class="sidebar-search-form mb-85">
+									<form method="get">
+										<input type="text" name="search" placeholder="Search">
+										<button><img src="{% static 'images/icon/51.svg' %}" alt=""></button>
+									</form>
+								</div> <!-- /.sidebar-search-form -->
+								<div class="sidebar-categories mb-85">
+									<h4 class="sidebar-title">Categories</h4>
+									<ul>
+										{% for cat, c in postCategory %}
+											<li><a href="#">{{cat.name}} <span>({{c}})</span></a></li>
+										{% endfor %}
+									</ul>
+								</div> <!-- /.sidebar-categories -->
+								<div class="sidebar-recent-news mb-85">
+									<h4 class="sidebar-title">Recent News</h4>
+									<ul>
+										{% for rp in recent_post %}
+										<li><a href="{% url 'detail_page' rp.slug %}">
+											<span class="title">{{rp.title}}</span>
+											<span class="date">{{rp.created_at}}</span>
+										</a></li>
+										{% endfor %}
+										
+									</ul>
+								</div> <!-- /.sidebar-recent-news -->
+								<div class="sidebar-keyword">
+									<h4 class="sidebar-title">Keywords</h4>
+									<ul class="cleafix">
+										<li><a href="#">Ideas</a></li>
+										<li><a href="#">Education</a></li>
+										<li><a href="#">Design</a></li>
+										<li><a href="#">Development</a></li>
+										<li><a href="#">Branding</a></li>
+									</ul>
+								</div> <!-- /.sidebar-keyword -->
+							</div> <!-- /.blog-sidebar-one -->
+						</div>
+					</div>
+				</div>
+			</div> <!-- /.blog-page-white-bg -->
+{% endblock content %}
+			
+
+
